@@ -22,11 +22,11 @@ This application is designed to show how to develop an **Auto-following Suitcase
 - **Auto-following** 
 - **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
 
-![ibaby_function][0]
+
 
 ### System Architecture
 
-![system_architecture][1]
+
 
 ## Hardware and Software Setup
 ### Required Hardware
@@ -45,7 +45,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 The list of hardware is shown in the picture following. 
 
-![wearable_node][3]
+
 
 ### Required Software
 - Metaware or ARC GNU Toolset
@@ -140,23 +140,5 @@ Placing the C source file and header file in the corresponding subfolder.
 |  iic                |       iic driver              |
 |  uart               |       uart driver             |
 
-[0]: ./doc/screenshots/system_architecture.PNG         "ibaby_function"
-[1]: ./doc/screenshots/system_architecture.PNG    "system_architecture"
-[2]: ./doc/screenshots/freeboard_ui.png           "freeboard_ui"
-[3]: ./doc/screenshots/wearable_node.jpg          "wearable_node"
-[4]: ./doc/screenshots/wifi_connected_info.PNG    "wifi_connected_info"
-[5]: ./doc/screenshots/lwm2m_started_info.PNG     "lwm2m_started_info"
-[6]: ./doc/screenshots/lamp_work_info.PNG         "lamp_work_info"
 
-
-[30]: https://www.synopsys.com/dw/ipdir.php?ds=arc_em_starter_kit    "DesignWare ARC EM Starter Kit(EMSK)"
-[31]: http://store.digilentinc.com/pmodwifi-wifi-interface-802-11g/    "Digilent PMOD WiFi(MRF24WG0MA)"
-[32]: https://www.invensense.com/products/motion-tracking/6-axis/mpu-6050/    "Acceleration sensor(MPU6050)"
-[33]: http://www.electronics-lab.com/max30102/    "Heartrate sensor(MAX30102)"
-[34]: https://developer.mbed.org/components/MLX90614-I2C-Infrared-Thermometer/    "Temperature sensor(MLX90614)"
-[35]: https://github.com/XiangcaiHuang/ibaby.git    "iBaby Smarthome Gateway"
-[36]: https://github.com/XiangcaiHuang/ibaby.git    "iBaby Freeboard UI"
-[37]: http://www.openmobilealliance.org/release/LightweightM2M/V1_0_1-20170704-A/OMA-TS-LightweightM2M-V1_0_1-20170704-A.pdf    "LwM2M Protocol"
-[38]: http://www.openmobilealliance.org/wp/OMNA/LwM2M/LwM2MRegistry.html#omalabel   "LwM2M Object and Resource"
-[39]: http://www.freertos.org/a00106.html   "FreeRTOS API"
 [40]: http://embarc.org/embarc_osp/doc/embARC_Document/html/page_example.html   " embARC Example User Guide"
