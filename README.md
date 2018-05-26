@@ -27,7 +27,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 - **Auto-following** 
 
-![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/Auto%20following.gif "Auto following")
+![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/Auto%20following.gif "Auto-following")
 
 - **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
 
@@ -120,19 +120,6 @@ Here take **EMSK2.2 - ARC EM7D** with GNU Toolset for example to show how to run
 		#
 		EMBARC_ROOT = ../../..
 
-
-- Directories of source files and header files, notice that it **is not recursive**:
-
-		# application source dirs
-                   APPL_CSRC_DIR = .
-
-                   APPL_ASMSRC_DIR = .
-
-                # application include dirs
-                   APPL_INC_DIR = .
-
-                # application defines
-                   APPL_DEFINES =
 
 See [ embARC Example User Guide][40], **"Options to Hard-Code in the Application Makefile"** for more detailed information about **Makefile Options**.
 
