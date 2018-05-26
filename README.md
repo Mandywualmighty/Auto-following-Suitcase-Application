@@ -54,7 +54,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 The list of hardware is shown in the picture following. 
 
-
+![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/hardware.png)
 
 ### Required Software
 - Metaware or ARC GNU Toolset
