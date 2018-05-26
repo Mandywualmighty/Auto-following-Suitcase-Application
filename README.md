@@ -4,7 +4,6 @@ This application is designed to show how to develop an **Auto-following Suitcase
 * [Introduction](#introduction)
 	* [Function](#function)
 	* [System Architecture](#system-architecture)
-	* [Freeboard UI](#freeboard-ui)
 * [Hardware and Software Setup](#hardware-and-software-setup)
 	* [Required Hardware](#required-hardware)
 	* [Required Software](#required-software)
@@ -12,26 +11,16 @@ This application is designed to show how to develop an **Auto-following Suitcase
 * [User Manual](#user-manual)
 	* [Before Running This Application](#before-running-this-application)
 	* [Run This Application](#run-this-application)
-	* [Add a New Node](#add-a-new-node)
-		* [Makefile](#makefile)
-		* [Main Entry](#main-entry)
-		* [Driver](#driver)
-		* [Function Module](#function-module)
-		* [LwM2M Client](#lwm2m-client)
 
 ## Introduction
-**iBaby Infant Sleep Monitoring System**
+**Smart Auto-following Suitcase**
 
 ### Function
 
-- **Heartrate and body temperature detecting**
-- **Sleep monitoring** (Alarm of face down during sleeping, Sleep-Wake state detecting and notify of baby awake)
-- Communicate with Gateway（**LwM2M**）
-- **OTA** based on LwM2M protocol (Supports file transfer over 2k size)
-- **Multi-node** access, connecting and communicating with each other.
-  Control **Lamp Node** to turn on automatically when the **Wearable Node** detecting baby sleep on his stomach.
-  ( Indirectly control ! Wearable node sends the warnning information to gateway when it detecting exceptional situations,
-   then the gateway transmits the information to lamp node and turns the lamp on.)
+- **Ambient temperature and air condition monitoring**
+- **obstacle avoiding**
+- **Auto-following** 
+- **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
 
 ![ibaby_function][0]
 
@@ -39,57 +28,53 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 ![system_architecture][1]
 
-### Freeboard UI
-
-![freeboard_ui][2]
-
 ## Hardware and Software Setup
 ### Required Hardware
-- 2 [DesignWare ARC EM Starter Kit(EMSK)][30]
-- 2 [Digilent PMOD WiFi(MRF24WG0MA)][31]
-- 1 [Acceleration sensor(MPU6050)][32]
-- 1 [Heartrate sensor(MAX30102)][33]
-- 1 [Temperature sensor(MLX90614)][34]
-- 2 SD Card
-- WiFi Hotspot(SSID:**embARC**, Password:**qazwsxedc**, WPA/WPA2 encypted)
-- PC or Raspberry Pi for running iBaby Smarthome Gateway
+- 1 DesignWare ARC EM Starter Kit(EMSK)
+- 1 Digilent PMOD TMP2
+- 1 Dust Sensor(ZPH01)
+- 1 Display Screen(OLED)
+- 1 Buzzer
+- 1 GPRS Module(SIM900A)
+- 2 Motor Driver Module(TB6612FNG)
+- 4 Positioning Module(DWM1000)
+- 4 Wheel
+- 4 Motor
+- 1 SD Card
+- 3 Ultrasonic Sensor(HCSR04)
 
-We designed integrated module for 3 sensors above, I'll call it **Foot Ring Module**. The physical picture of wearable node is as follows:
+The list of hardware is shown in the picture following. 
 
 ![wearable_node][3]
 
 ### Required Software
 - Metaware or ARC GNU Toolset
 - Serial port terminal, such as putty, tera-term or minicom
-- [iBaby Smarthome Gateway][35]
-- [iBaby Freeboard UI][36]
 
 ### Hardware Connection
-1. EMSK 1 implement **wearable** node, as an intelligent foot ring for baby, it will publish baby's status to AWS IoT Cloud via the Gateway, including body temperature, heartrate, sleep-wake state, motion intensity and some warning information. We can view all data on the Freeboard UI.
-   - Connect **PMOD WiFi** to **J5**, connect **Foot Ring Module** to **J4**(Using IIC1 interface).
-2. EMSK 2 implement **lamp** node, as an desk lamp in parents' room, it will publish the working state of lamp to AWS IoT Cloud via the Gateway. We use the LED0 to simulate real desk lamp to make the application more simple and easy to learn. The lamp can be controlled by button A manually, or **wearable** node automatically. We can also view it's state on the Freeboard UI.
-   - Connect **PMOD WiFi** to **J5**.
-3. Configure your EMSKs with proper core configuration.
+1. The EMSK implement **Auto-folowing** smart device, it will process the data returned by positioning module and ultrasonic sensor,and send instructions to motor driver module.It can also monitor temperature and dust concentration of air,we can view these data on OLED. 
+   - Connect **Positioning module** to **J1**(Using UART interface), connect **Motor driver module** to **J3** and **J6**,connect **Ultrasonic sensor** to **J1** and **J3**.
+   - Connect **PMOD TMP2** to **J4**(Using IIC interface), connect **ZPH01** to **J5**(Using uart interface),connect **OLED** and **GPRS** to **J2**(Using IIC interface),connect **Buzzer** to **J6**.
+2. Configure your EMSKs with proper core configuration.
 
 ## User Manual
 ### Before Running This Application
-Firstly, download source code of **iBaby Smarthome Gateway** and **iBaby Freeboard UI** from github. Then you need an AWS account, and create things for ibaby Gateway, generate and save the certs for it, and modify specific `config.js`(path: `./ibaby_smarthome_gateway/config.js`) for your project.
-
-Secondly, run the iBaby Smarthome Gateway, open the browser and type IP address of the Gateway to access user interface. You can push iBaby Freeboard UI to github so that it can support remote access data.
-
-|  EMSK Implemented Node   |    AWS IoT Thing      |     Source Folder      |
-| ------------------------ | --------------------- | ---------------------- |
-|      wearable node       |        ibaby          |   src/wearable_node    |
-|      lamp node           |        ibaby          |   src/lamp_node        |
+Download source code of **Auto-following Suitcase** from github.
 
 The hardware resources are allocated as following table.
 
 |  Hardware Resource  |            Function                                           |
 | ------------------- | ------------------------------------------------------------- |
-|  MPU6050            |        Acceleration sensor                                    |
-|  MAX30102           |        Heartrate sensor                                       |
-|  MLX90614           |        Body temperature sensor                                |
-|  PMOD WiFi          |        Provide WiFi Connection                                |
+|  PMOD TMP2          |        Temperature sensor                                     |
+|  ZPH01              |        Dust sensor                                            |
+|  OLED               |        Display screen                                         |
+|  SIM900A            |        Send messages or call                                  |
+|  TB6612FNG          |        Motor driver module                                    |
+|  HCSR04             |        Dust sensor                                            |
+|  OLED               |        Ultrasonic sensor                                      |
+|  DWM1000            |        Positioning module                                     |
+
+- Modify mux.c (/board/emsk/common/emsk_init.c)
 
 ### Run This Application
 
