@@ -1,1 +1,1 @@
-# Auto-following-Suitcase-Application
+# Auto Following Suitcase Application
