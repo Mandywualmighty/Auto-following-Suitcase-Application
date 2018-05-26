@@ -35,7 +35,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 ### System Architecture
 
-![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/system_architecture.png  "system architecture")
+![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/System%20architecture.png  "System architecture")
 
 ## Hardware and Software Setup
 ### Required Hardware
