@@ -10,7 +10,7 @@ This application is designed to show how to develop an Auto-following Suitcase u
 - User Manual
   - Before Running This Application
   - Run This Application
-# Introduction
+## Introduction
 Smart Auto-following Suitcase
 
 Function
@@ -21,7 +21,7 @@ Function
 - Auto-alarm  (The device will raise a voice alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
 
 System Architecture
-
+ https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/raw/drc/screenshots/system_architecture.png
 
 
 Hardware and Software Setup
