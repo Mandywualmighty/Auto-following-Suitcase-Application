@@ -18,6 +18,9 @@ This application is designed to show how to develop an **Auto-following Suitcase
 ### Function
 
 - **Ambient temperature and air condition monitoring**
+
+![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/Temperature%20and%20PM2.5%20monitoring.jpg)
+
 - **obstacle avoiding**
 - **Auto-following** 
 - **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
