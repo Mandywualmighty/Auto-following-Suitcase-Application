@@ -53,20 +53,19 @@ void u8g_prepare(void)
 }
 static void draw(int32_t temp, uint16_t pmm) 
 {	
-		char s[]="Temperature:  .  C";		//温度
-		s[12]=(int)(temp/100)+48;
-		s[13]=(int)((temp-((int)(temp/100))*100)/10)+48;
-		s[15]=(int)(temp%10)+48;
-		u8g_DrawStr(&u8g, 0, 15, s);		
-	
-		char s1[]="PM2.5:     ug/m3";			//pm2.5
-		//s1[6]=(pmm/1000)+48;	
-		pmm= pmm % 1000;
-		s1[7]=(pmm/100)+48;
-		pmm = pmm % 100;
-		s1[8]=(pmm/ 10)+48;
-		s1[9]=(pmm% 10)+48;
-		u8g_DrawStr(&u8g, 0, 45, s1);	
+	char s[]="Temperature:  .  C";		//温度
+	s[12]=(int)(temp/100)+48;
+	s[13]=(int)((temp-((int)(temp/100))*100)/10)+48;
+	s[15]=(int)(temp%10)+48;
+	u8g_DrawStr(&u8g, 0, 15, s);			
+	char s1[]="PM2.5:     ug/m3";			//pm2.5
+	//s1[6]=(pmm/1000)+48;	
+	pmm= pmm % 1000;
+	s1[7]=(pmm/100)+48;
+	pmm = pmm % 100;
+	s1[8]=(pmm/ 10)+48;
+	s1[9]=(pmm% 10)+48;
+	u8g_DrawStr(&u8g, 0, 45, s1);	
 }
 static void timer1_isr(void *ptr)
 {
@@ -76,16 +75,16 @@ static void timer1_isr(void *ptr)
         int32_t temp_val;
 	if (temp_sensor_read(&temp_val) == E_OK) 
 	{	   
-		temp1=temp_val;
+	   temp1=temp_val;
 	}
         else
 	{
-		 EMBARC_PRINTF("Unable to read temperature sensor value, please check it!\r\n");
+	   EMBARC_PRINTF("Unable to read temperature sensor value, please check it!\r\n");
 	}
         pm=receive_pm();
 	u8g_FirstPage(&u8g);
 	do {
-		 draw(temp1,pm);
+	      draw(temp1,pm);
 	    } while (u8g_NextPage(&u8g));
 }
 static void timer0_isr(void *ptr)
