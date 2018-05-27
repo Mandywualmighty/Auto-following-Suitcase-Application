@@ -132,9 +132,9 @@ Placing the C source file and header file in the corresponding subfolder.
 | ------------------- | ------------------------------|
 |  ultrasonic         |       ultrasonic driver       |
 |  temperature        |       temperature driver      |
-|  gpio               |       gpio driver             |
-|  iic                |       iic driver              |
-|  uart               |       uart driver             |
+|  GPRS               |       GPRS driver             |
+|  ZPH01              |       ZPH01 driver            |
+|  buzzer             |       buzzer driver             |
 
 
 [40]: http://embarc.org/embarc_osp/doc/embARC_Document/html/page_example.html   " embARC Example User Guide"
