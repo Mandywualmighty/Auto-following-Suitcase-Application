@@ -7,13 +7,11 @@
 #include "u8g.h"
 #include <string.h>
 #include "arc.h"
-
 #define FOLLOW_DISTANCE  120 //跟随距离
 #define STOP_DISTANCE  80
 #define LOST_DISTANCE 300
 #define ALARM_DISTANCE 400
 #define BOARD_TEMP_I2C_SLAVE_ADDRESS  TEMP_I2C_SLAVE_ADDRESS
-
 u8g_t u8g;
 DEV_UART *dev_uart0 = NULL;
 uint32_t dis_l,dis_r,dis_m;
@@ -28,14 +26,12 @@ static DEV_GPIO_PTR PMOD4_L;
 static DEV_GPIO_PTR PMOD5_U;
 uint32_t turn_left=0,turn_right=0;
 uint32_t right_obstacle,left_obstacle;
-
 static void delay_ms(volatile int z) //1ms
 {
 	volatile uint32_t x,y;
 	for(x=1400;x>0;x--)
 		for(y=z;y>0;y--);
 }
-
 static void car_init(void)////j3 7 8 9 10  //A16 17 18 19  25-31
 {
 	PMOD3_L = gpio_get_dev(DW_GPIO_PORT_A);
@@ -48,7 +44,6 @@ static void car_init(void)////j3 7 8 9 10  //A16 17 18 19  25-31
 	PMOD5_U->gpio_open(0xc000000);
 	PMOD5_U->gpio_control(GPIO_CMD_SET_BIT_DIR_OUTPUT, (void *)0xc000000);
 }
-
 void u8g_prepare(void) 
 {
 	u8g_SetFont(&u8g, u8g_font_7x14B);		
@@ -56,7 +51,6 @@ void u8g_prepare(void)
 	u8g_SetDefaultForegroundColor(&u8g);		
 	u8g_SetFontPosTop(&u8g);			
 }
-
 static void draw(int32_t temp, uint16_t pmm) 
 {	
 		char s[]="Temperature:  .  C";		//温度
@@ -74,138 +68,126 @@ static void draw(int32_t temp, uint16_t pmm)
 		s1[9]=(pmm% 10)+48;
 		u8g_DrawStr(&u8g, 0, 45, s1);	
 }
-
 static void timer1_isr(void *ptr)
 {
 	timer_int_clear(TIMER_1);
-    int32_t temp1;
+        int32_t temp1;
 	uint16_t pm;
-    int32_t temp_val;
+        int32_t temp_val;
 	if (temp_sensor_read(&temp_val) == E_OK) 
 	{	   
 		temp1=temp_val;
 	}
-    else
+        else
 	{
 		 EMBARC_PRINTF("Unable to read temperature sensor value, please check it!\r\n");
 	}
-    pm=receive_pm();
+        pm=receive_pm();
 	u8g_FirstPage(&u8g);
-	 do {
+	do {
 		 draw(temp1,pm);
-		 } while (u8g_NextPage(&u8g));
+	    } while (u8g_NextPage(&u8g));
 }
-
 static void timer0_isr(void *ptr)
 {
 	timer_int_clear(TIMER_0);
 	t0++;
 	t1++;
 	t2++;
-	t3++;
-	
-    if(t0>=20)
-		t0=0;
+	t3++;	
+        if(t0>=20)
+	   t0=0;
 	else
-		{
-		  if(t0<pwm1)
-			 PMOD5_U->gpio_write(0x8000000, 0x8000000);
-		  else  
-		     PMOD5_U->gpio_write(0x0000000, 0x8000000);
-		 }
-		   
-    if(t1>=20)
-		t1=0;
+	{
+	 if(t0<pwm1)
+		 PMOD5_U->gpio_write(0x8000000, 0x8000000);
+	 else  
+		 PMOD5_U->gpio_write(0x0000000, 0x8000000);
+	}	   
+        if(t1>=20)
+	   t1=0;
 	else
-		{
-		  if(t1<pwm2)
-			 PMOD5_U->gpio_write(0x4000000, 0x4000000);    
-		  else 
-		     PMOD5_U->gpio_write(0x0000000, 0x4000000);
-		}
+	{
+	 if(t1<pwm2)
+		 PMOD5_U->gpio_write(0x4000000, 0x4000000);    
+	 else 
+		 PMOD5_U->gpio_write(0x0000000, 0x4000000);
+	}
 	if(t2>=20)
-		t2=0;
+	   t2=0;
 	else
-		{
-		  if(t2<pwm1)
-			 PMOD4_L->gpio_write(0x80, 0x80);
-		  else  
-			 PMOD4_L->gpio_write(0x00, 0x80);
-		}       
-    if(t3>=20)
-		t3=0;
+	{
+	 if(t2<pwm1)
+		 PMOD4_L->gpio_write(0x80, 0x80);
+	 else  
+		 PMOD4_L->gpio_write(0x00, 0x80);
+	}       
+        if(t3>=20)
+	   t3=0;
 	else
-		{
-		  if(t3<pwm2)
-			 PMOD4_L->gpio_write(0x40, 0x40);
-		  else  
-			 PMOD4_L->gpio_write(0x00, 0x40);
-		}
+	{
+	 if(t3<pwm2)
+		 PMOD4_L->gpio_write(0x40, 0x40);
+	 else  
+		 PMOD4_L->gpio_write(0x00, 0x40);
+	}
 }
-
 static void forward(void)
 {   
 	pwm1=16;
 	pwm2=16;
 	PMOD3_L->gpio_write(0xa0ca0000, 0xf0cf0000); 	
 }
-
 static void left(void)
 {
 	pwm1=11;
 	pwm2=11;
-    PMOD3_L->gpio_write(0x80c20000, 0xf0cf0000);
+        PMOD3_L->gpio_write(0x80c20000, 0xf0cf0000);
 }
-
 static void right(void)
 {   
-    pwm1=11;
+        pwm1=11;
 	pwm2=11;
 	PMOD3_L->gpio_write(0x20c80000, 0xf0cf0000); 
 }
-
 static void back(void)
 {
 	pwm1=13;
 	pwm2=13;
 	PMOD3_L->gpio_write(0x50c50000, 0xf0cf0000);  
 }
-
 static void stop(void)
 { 
 	PMOD3_L->gpio_write(0x00c00000, 0xf0cf0000); 
 }
-
 int main(void)
 {
 	uint8_t rcv_buf[28];
 	int a0_to_a1;//基站0到基站1距离
 	int a0_to_a2;//基站0到基站2距离
 	int a1_to_a2;//基站1到基站2距离
-    int t_to_a0;//标签到基站0距离
+        int t_to_a0;//标签到基站0距离
 	int t_to_a1;//标签到基站1距离
 	int t_to_a2;//标签到基站2距离
-    double a=20.0;//等边三角形边长
+        double a=20.0;//等边三角形边长
 	double b,c,d,f,jiaodu,y;//坐标表示
 	uint32_t rcv_cnt;
 	uint32_t i = 0;
 	uint32_t baudrate = 115200;
 	uint32_t rd_avail = 0;             
-    int32_t ercd;
-	
+        int32_t ercd;	
 	cpu_lock();	
 	board_init();
 	ercd = temp_sensor_init(BOARD_TEMP_I2C_SLAVE_ADDRESS);
 	if (ercd != E_OK) {
 		EMBARC_PRINTF("Temperature sensor open failed\r\n");
 	}
-    int_disable(INTNO_TIMER1);	
+        int_disable(INTNO_TIMER1);	
 	timer_stop(INTNO_TIMER1);
 	int_handler_install(INTNO_TIMER1, timer1_isr);
 	int_enable(INTNO_TIMER1);
 	timer_start(TIMER_1, TIMER_CTRL_IE, BOARD_CPU_CLOCK);
 	cpu_unlock();
-	
 	car_init();
 	hc_sr04_init();
 	uart2_init();
@@ -214,7 +196,7 @@ int main(void)
 	u8g_prepare();
 	dev_uart0 = uart_get_dev(DW_UART_0_ID);
 	dev_uart0->uart_open(baudrate);
-    if (timer_present(TIMER_0))
+        if (timer_present(TIMER_0))
 		{
 		  timer_stop(TIMER_0);
 		  int_handler_install(INTNO_TIMER0,timer0_isr);
@@ -234,7 +216,7 @@ int main(void)
 				{
 					   if(rcv_buf[2]==1)
 					   {	
-					    a0_to_a1=(rcv_buf[9]<<8) |(rcv_buf[8]) ;
+					        a0_to_a1=(rcv_buf[9]<<8) |(rcv_buf[8]) ;
 						a0_to_a2=(rcv_buf[11]<<8) |(rcv_buf[10]) ;
 						a1_to_a2=(rcv_buf[13]<<8) |(rcv_buf[12]) ;
 						t_to_a0=(rcv_buf[21]<<8) |(rcv_buf[20]) ;
@@ -242,22 +224,21 @@ int main(void)
 						t_to_a2=(rcv_buf[25]<<8) |(rcv_buf[24]) ;
 					   }
 					   else if(rcv_buf[2]==2)
-					   	{
-					    t_to_a0=(rcv_buf[7]<<8) |(rcv_buf[6]) ;
-					    t_to_a1=(rcv_buf[9]<<8) |(rcv_buf[8]) ;
-					    t_to_a2=(rcv_buf[11]<<8) |(rcv_buf[10]);
-					    a0_to_a1=(rcv_buf[23]<<8) |(rcv_buf[22]) ;
+					   {
+					        t_to_a0=(rcv_buf[7]<<8) |(rcv_buf[6]) ;
+					        t_to_a1=(rcv_buf[9]<<8) |(rcv_buf[8]) ;
+					        t_to_a2=(rcv_buf[11]<<8) |(rcv_buf[10]);
+					        a0_to_a1=(rcv_buf[23]<<8) |(rcv_buf[22]) ;
 						a0_to_a2=(rcv_buf[25]<<8) |(rcv_buf[24]) ;
 						a1_to_a2=(rcv_buf[27]<<8) |(rcv_buf[26]) ;
-					   	}					   
-			           y=(t_to_a0*t_to_a0-t_to_a1*t_to_a1)/(2*a);//标签y方向坐标
-				   	     // printf("y=%lf\n",y);
+					   }					   
+			                   y=(t_to_a0*t_to_a0-t_to_a1*t_to_a1)/(2*a);//标签y方向坐标
 					   b=2*a*a+2*t_to_a2*t_to_a2-t_to_a0*t_to_a0-t_to_a1*t_to_a1;
 					   c=t_to_a0*t_to_a0+t_to_a1*t_to_a1-2*a*a-2*t_to_a2*t_to_a2;					   
 					   d=t_to_a0*t_to_a0-t_to_a1*t_to_a1;
 					   f=sqrt1(c*c+3*d*d);
 					   jiaodu=b/f;  					
-            	       jiaodu=acos1(jiaodu)*180.0/PI;      ////////基于三点定位原理，建立空间直角坐标系，计算方位角
+            	                           jiaodu=acos1(jiaodu)*180.0/PI;      ////////基于三点定位原理，建立空间直角坐标系，计算方位角
 					   printf("jiaodu=%lf\n",jiaodu);
 					   if(t_to_a2>FOLLOW_DISTANCE&&t_to_a2<LOST_DISTANCE) //如果距离大于跟随距离
 						{   
@@ -276,7 +257,7 @@ int main(void)
 									  turn_left = 0;
 									  right_obstacle = 2;
 								   }
-						    }
+						        }
 						   else if(turn_right)
 							{
 								if(dis_m<80)
@@ -329,13 +310,13 @@ int main(void)
 								   }
 							}
 						   else if(right_obstacle==0&&left_obstacle==0) //标签在正前方，并且左右没有障碍物	 
-						    {
-								forward();
-							}
+						        {
+							    forward();
+						        }
 						   else
 							    stop();
-					    }
-                       if(t_to_a2<FOLLOW_DISTANCE)
+					        }
+                                           if(t_to_a2<FOLLOW_DISTANCE)
 					       stop(); 
 					   if(t_to_a2>=LOST_DISTANCE&&t_to_a2<ALARM_DISTANCE)
 						   beep();
