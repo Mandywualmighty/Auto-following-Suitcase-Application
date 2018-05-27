@@ -11,6 +11,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 * [User Manual](#user-manual)
 	* [Before Running This Application](#before-running-this-application)
 	* [Run This Application](#run-this-application)
+* [DemoVideo](#demovideo)
 
 ## Introduction
 **Smart Auto-following Suitcase**
