@@ -126,7 +126,7 @@ See [ embARC Example User Guide][40], **"Options to Hard-Code in the Application
 
 #### Driver
 
-Placing the drivers' source code in `driver` folder, you can see there are subfolders for ultasonic deiver
+Placing the drivers' source code in `driver` folder, you can see there are subfolders for ultasonic,GPRS,ZPH01,buzzer and temperature drivers.
 Placing the C source file and header file in the corresponding subfolder.
 
 |  folder/file        |            Function           |
