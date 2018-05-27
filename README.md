@@ -119,6 +119,7 @@ Here take **EMSK2.2 - ARC EM7D** with GNU Toolset for example to show how to run
 		# root dir of embARC
 		#
 		EMBARC_ROOT = ../../..
+		MID_SEL = common u8glib
 
 
 See [ embARC Example User Guide][40], **"Options to Hard-Code in the Application Makefile"** for more detailed information about **Makefile Options**.
