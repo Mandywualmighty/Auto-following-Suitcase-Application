@@ -32,6 +32,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 - **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and call the mobile phone when it is longer than 5.5 meters)
 
+![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/Auto-alarm.gif)
 
 
 ### System Architecture
