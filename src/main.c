@@ -36,12 +36,6 @@ static void delay_ms(volatile int z) //1ms
 		for(y=z;y>0;y--);
 }
 
-//j3 A19-AIN2,A18-AIN1,A17-BIN2,A16-BIN1 ......驱动1
-//J6   A31-AIN2,A30-AIN1,A29-BIN2,A28-BIN1   .....驱动2
-//j4 A21-pwmA A20-pwmB ......驱动1
-//j5 A27-pwmA A24-pwmB   .....驱动2
-//j4 A23 STBY....1//A22 STBY....2
-
 static void car_init(void)////j3 7 8 9 10  //A16 17 18 19  25-31
 {
 	PMOD3_L = gpio_get_dev(DW_GPIO_PORT_A);
@@ -90,7 +84,6 @@ static void timer1_isr(void *ptr)
 	if (temp_sensor_read(&temp_val) == E_OK) 
 	{	   
 		temp1=temp_val;
-	   // printf("Current temperature: %d.%dC\r\n", (int)(temp_val/10), (int)(temp_val%10));
 	}
     else
 	{
@@ -150,14 +143,11 @@ static void timer0_isr(void *ptr)
 		}
 }
 
-
 static void forward(void)
 {   
 	pwm1=16;
 	pwm2=16;
-	PMOD3_L->gpio_write(0xa0ca0000, 0xf0cf0000); 
-	//EMBARC_PRINTF("forward\r\n");
-	
+	PMOD3_L->gpio_write(0xa0ca0000, 0xf0cf0000); 	
 }
 
 static void left(void)
@@ -165,7 +155,6 @@ static void left(void)
 	pwm1=11;
 	pwm2=11;
     PMOD3_L->gpio_write(0x80c20000, 0xf0cf0000);
-	//EMBARC_PRINTF("turn left\r\n");
 }
 
 static void right(void)
@@ -173,7 +162,6 @@ static void right(void)
     pwm1=11;
 	pwm2=11;
 	PMOD3_L->gpio_write(0x20c80000, 0xf0cf0000); 
-	//EMBARC_PRINTF("turn right\r\n");
 }
 
 static void back(void)
@@ -181,15 +169,12 @@ static void back(void)
 	pwm1=13;
 	pwm2=13;
 	PMOD3_L->gpio_write(0x50c50000, 0xf0cf0000);  
-	//EMBARC_PRINTF("back\r\n");
 }
 
 static void stop(void)
 { 
 	PMOD3_L->gpio_write(0x00c00000, 0xf0cf0000); 
-	//EMBARC_PRINTF("stop\r\n");
 }
-
 
 int main(void)
 {
@@ -220,14 +205,13 @@ int main(void)
 	int_enable(INTNO_TIMER1);
 	timer_start(TIMER_1, TIMER_CTRL_IE, BOARD_CPU_CLOCK);
 	cpu_unlock();
-
+	
 	car_init();
 	hc_sr04_init();
 	uart2_init();
 	u8g_InitComFn(&u8g, &u8g_dev_ssd1306_128x64_2x_i2c, U8G_COM_SSD_I2C);
 	u8g_Begin(&u8g); 
 	u8g_prepare();
-	//initialize the uart0 which is on PMOD1 J4 for RXD J3 for TXD
 	dev_uart0 = uart_get_dev(DW_UART_0_ID);
 	dev_uart0->uart_open(baudrate);
     if (timer_present(TIMER_0))
@@ -265,13 +249,7 @@ int main(void)
 					    a0_to_a1=(rcv_buf[23]<<8) |(rcv_buf[22]) ;
 						a0_to_a2=(rcv_buf[25]<<8) |(rcv_buf[24]) ;
 						a1_to_a2=(rcv_buf[27]<<8) |(rcv_buf[26]) ;
-					   	}
-		        		/* printf("a0_to_a1 = %d\n", a0_to_a1);
-						  printf("a0_to_a2 = %d\n", a0_to_a2);
-						  printf("a1_to_a2 = %d\n", a1_to_a2);
-						  printf("t_to_a0 = %d\n", t_to_a0);
-						  printf("t_to_a1 = %d\n", t_to_a1);
-						  printf("t_to_a2 = %d\n", t_to_a2);	*/						   
+					   	}					   
 			           y=(t_to_a0*t_to_a0-t_to_a1*t_to_a1)/(2*a);//标签y方向坐标
 				   	     // printf("y=%lf\n",y);
 					   b=2*a*a+2*t_to_a2*t_to_a2-t_to_a0*t_to_a0-t_to_a1*t_to_a1;
@@ -364,7 +342,6 @@ int main(void)
 					   if(t_to_a2>=ALARM_DISTANCE)
 						   {
 							    stop();
-								//  send(phoneNum, msg);
 							    call();
 						   }
 				}
