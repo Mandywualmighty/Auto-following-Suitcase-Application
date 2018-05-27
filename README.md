@@ -1,5 +1,5 @@
 # Auto-following Suitcase Application
-This application is designed to show how to develop an **Auto-following Suitcase** using embARC.A person holding a tag in hand,three ultra-wideband anchors should be installed inside the suitcase in an equilateral triangular shape with a side length of 20cm. The distance information measured by the UWB module is transmitted to EMSK through UART.Based on the principle of three-point positioning,the azimuth between the person and the suitcase can be obtained to achieve following.This suitcase can also monitor ambient temperature and air conditions.When the distance between the trunk and the owner exceed the preset ,the trunk will stop automatically,and then sound the alarm or send an SMS alert to the mobile phone, so you don't have to worry about losing the trunk.This design is mainly suitable for flat and open indoor applications such as airport waiting halls.
+This application is designed to show how to develop an **Auto-following Suitcase** using embARC.A person holding a tag in hand,three ultra-wideband anchors should be installed inside the suitcase in an equilateral triangular shape with a side length of 20cm. The distance information measured by the UWB module is transmitted to EMSK through UART.Based on the principle of three-point positioning,the azimuth between the person and the suitcase can be obtained to achieve following.This suitcase can also monitor ambient temperature and air conditions.When the distance between the trunk and the owner exceed the preset ,the trunk will stop automatically,and then sound the alarm or call the mobile phone, so you don't have to worry about losing the trunk.This design is mainly suitable for flat and open indoor applications such as airport waiting halls.
 
 * [Introduction](#introduction)
 	* [Function](#function)
@@ -29,7 +29,7 @@ This application is designed to show how to develop an **Auto-following Suitcase
 
 ![image](https://github.com/Mandywualmighty/Auto-following-Suitcase-Application/blob/master/doc/screenshots/Auto%20following.gif "Auto-following")
 
-- **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and send an SMS alert to the mobile phone when it is longer than 5.5 meters)
+- **Auto-alarm** (The device will sound the alarm when the distance between one and suitcase is longer than 4 meters, and call the mobile phone when it is longer than 5.5 meters)
 
 
 
